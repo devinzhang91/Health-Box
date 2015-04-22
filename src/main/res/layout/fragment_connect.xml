@@ -5,7 +5,7 @@
     tools:context=".MainActivity"
     android:background="@mipmap/background0" >
 
-    <com.example.root.myapplication.RefreshableView
+    <com.example.devinzhang.myapplication.RefreshableView
         android:id="@+id/refreshable_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
@@ -16,6 +16,6 @@
             android:layout_height="fill_parent"
             android:layout_margin="10dp" >
         </ListView>
-    </com.example.root.myapplication.RefreshableView>
+    </com.example.devinzhang.myapplication.RefreshableView>
 
 </RelativeLayout>
