@@ -11,6 +11,7 @@ void touch_show(void);
 u16 x[5],y[5]={0};	//五点定位的逻辑坐标
 float KX=-5.4100,KY=7.6900;				//伸缩系数
 u16 XLC=1020,YLC=945,XC=160,YC=120;	//中心基准系数
+extern u8 AdcChannel = 1;
 
 u16 ADS_Read(u8 CMD)	  
 { 	 	  
@@ -118,6 +119,8 @@ u8 LCD_Adjustd(void)
 	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;//Falling下降沿 Rising上升
 	EXTI_InitStructure.EXTI_LineCmd = DISABLE;
 	EXTI_Init(&EXTI_InitStructure);
+	//显示停止刷屏
+	TIM_Cmd(TIM3, DISABLE);  //使能TIMx外设
 	
 	LCD_Clear(White );
 	LCD_printString(110,20, "Adjustd Begin" ,Black);
@@ -231,6 +234,9 @@ u8 LCD_Adjustd(void)
 	EXTI_Init(&EXTI_InitStructure);
 	EXTI_ClearITPendingBit(EXTI_Line7);	   //清除线路挂起位
 	
+	//显示开始刷屏
+	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
+	
 	Add_Button();
 	
 	return 0;
@@ -251,27 +257,21 @@ void touch_show(void)
 // 		LCD_ShowNum(5,5,x,Black);
 // 		LCD_ShowNum(5,15,y,Black);
 		
-		//按键响应，DAC输出，显示刷新
+		
 		if( 40<x && x<120 && 140<y && y<200 )
-		{			
-			//while(GPIO_ReadInputDataBit(GPIOG,GPIO_Pin_7));
-			if(dacValue<3300)
-				dacValue = dacValue+10;
-			Dac1_Set_Vol(dacValue);
-			LCD_Color_Fill(50,10,75,20, White);
-			LCD_ShowNum(50,10,dacValue,Black);
+		{
+			AdcChannel = 1;
+			LCD_Color_Fill(80,10,90,20, White);
+			LCD_ShowNum(80,10,1,Black);
 		}
-		//按键响应，DAC输出，显示刷新
+		
 		if( 200<x && x<280 && 140<y && y<200 ) 
 		{			
-			//while(GPIO_ReadInputDataBit(GPIOG,GPIO_Pin_7));
-			if(dacValue > 0)
-				dacValue = dacValue-10;
-			Dac1_Set_Vol(dacValue);
-			LCD_Color_Fill(50,10,75,20, White);
-			LCD_ShowNum(50,10,dacValue,Black);
+			AdcChannel = 2;
+			LCD_Color_Fill(80,10,90,20, White);
+			LCD_ShowNum(80,10,2,Black);
 		}
-			
+	
 		delay_ms(100);
 	}
 }

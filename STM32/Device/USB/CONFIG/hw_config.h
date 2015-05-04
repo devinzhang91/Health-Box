@@ -53,8 +53,7 @@ void Enter_LowPowerMode(void);
 void Leave_LowPowerMode(void);
 void USB_Interrupts_Config(void);
 void USB_Cable_Config (FunctionalState NewState);
-void Data_64_Package_Send(u8 *data);
-void USB_SendString(u8 *str);
+void Data_50_Package_Send(u8 *data);
 uint8_t JoyState(void);
 void Get_SerialNum(void);
 

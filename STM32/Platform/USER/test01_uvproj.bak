@@ -562,11 +562,6 @@
               <FilePath>..\HARDWARE\DAC\dac.c</FilePath>
             </File>
             <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\ADC\adc.c</FilePath>
-            </File>
-            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI\spi.c</FilePath>
@@ -590,6 +585,21 @@
               <FileName>dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\DMA\dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADC\adc1.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADC\adc2.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADC\adc3.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -657,16 +667,6 @@
               <FilePath>..\USB\CONFIG\hw_config.c</FilePath>
             </File>
             <File>
-              <FileName>stm32_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\CONFIG\stm32_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\CONFIG\usb_desc.c</FilePath>
-            </File>
-            <File>
               <FileName>usb_endp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USB\CONFIG\usb_endp.c</FilePath>
@@ -677,14 +677,19 @@
               <FilePath>..\USB\CONFIG\usb_istr.c</FilePath>
             </File>
             <File>
-              <FileName>usb_prop.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USB\CONFIG\usb_prop.c</FilePath>
-            </File>
-            <File>
               <FileName>usb_pwr.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USB\CONFIG\usb_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_desc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USB\CONFIG\usb_desc.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_prop.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USB\CONFIG\usb_prop.c</FilePath>
             </File>
           </Files>
         </Group>

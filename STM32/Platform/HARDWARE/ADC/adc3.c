@@ -1,25 +1,25 @@
- #include "adc.h"
+ #include "adc3.h"
  #include "delay.h"  
 		   
-extern vu16 AD_Value[];
+extern vu16 AD_Value3[];
 			 
 //初始化ADC
 //仅以规则通道为例
-//默认开启通道1																	   
-void  Adc_Init(void)
+//默认开启通道3																	   
+void  Adc3_Init(void)
 { 	
 	ADC_InitTypeDef ADC_InitStructure; 
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA |RCC_APB2Periph_ADC1	, ENABLE );	  //使能ADC1通道时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC |RCC_APB2Periph_ADC3	, ENABLE );	  //使能ADC1通道时钟
  
 
 	RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //设置ADC分频因子6 72M/6=12,ADC最大时间不能超过14M
 
-	//PA1 作为模拟通道输入引脚                         
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+	//PC0 作为模拟通道输入引脚                         
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;		//模拟输入引脚
-	GPIO_Init(GPIOA, &GPIO_InitStructure);	
+	GPIO_Init(GPIOC, &GPIO_InitStructure);	
 
 	ADC_DeInit(ADC1);  //复位ADC1,将外设 ADC1 的全部寄存器重设为缺省值
 
@@ -44,7 +44,7 @@ void  Adc_Init(void)
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
 	
 	//软件开启采样
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5 );	//ADC1,ADC通道,采样时间为239.5周期	  			     
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_239Cycles5 );	//ADC1,ADC通道,采样时间为239.5周期	  			     
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);		//使能指定的ADC1的软件转换启动功能
 
 }		
@@ -53,17 +53,17 @@ void  Adc_Init(void)
 //这里采用多通道连续采样，并用DMA1的通道传送
 //我们默认将开启通道10~13
 //相应管脚PC0~3
-void Adc_Multi_Init(void)
+void Adc3_Multi_Init(void)
 { 	
 	ADC_InitTypeDef ADC_InitStructure; 
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC |RCC_APB2Periph_ADC1	, ENABLE );	  //使能ADC1通道时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC |RCC_APB2Periph_ADC3	, ENABLE );	  //使能ADC1通道时钟
  
 
 	RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //设置ADC分频因子6 72M/6=12,ADC最大时间不能超过14M
 
-	//PA1 作为模拟通道输入引脚
+	//PC0~3 作为模拟通道输入引脚
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;		//模拟输入引脚
 	GPIO_Init(GPIOC, &GPIO_InitStructure);	
@@ -103,7 +103,7 @@ void Adc_Multi_Init(void)
 		  
 //单次获得ADC值
 //ch:通道值 0~3
-u16 Get_Adc(u8 ch)   
+u16 Get_Adc3(u8 ch)   
 {
 	u16 tempADC = 0; 
 	
@@ -119,27 +119,27 @@ u16 Get_Adc(u8 ch)
 
 //单次获得平均ADC值
 //ch:通道值 0~3 ; times:取值次数 0~255
-u16 Get_Adc_Average(u8 ch,u8 times)
+u16 Get_Adc3_Average(u8 ch,u8 times)
 {
 	u32 temp_val=0;
 	u8 t;
 	for(t=0;t<times;t++)
 	{
-		temp_val+=Get_Adc(ch);
+		temp_val+=Get_Adc3(ch);
 		delay_ms(5);
 	}
 	return temp_val/times;
 } 	 
 
 //计算多通道ADC值
-//AD_Value[]是DMA目标地址的数组空间
-u16 Get_Multi_Adc(void)
+//AD_Value3[]是DMA目标地址的数组空间
+u16 Get_Multi_Adc3(void)
 {
 	u32 temp_val=0;
 	u8 t;
 	for(t=0;t<4;t++)
 	{
-		temp_val+=AD_Value[t];
+		temp_val+=AD_Value3[t];
 	}
 	return temp_val/4;
 } 

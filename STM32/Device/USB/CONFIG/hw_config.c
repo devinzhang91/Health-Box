@@ -33,8 +33,8 @@
 #include "usb_pwr.h"
 #include "sys.h"
 
-extern u8 Receive_Buffer[64];
-extern u8 Transi_Buffer[64];
+extern u8 Receive_Buffer[5];
+extern u8 Transi_Buffer[5];
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -132,30 +132,18 @@ void USB_Interrupts_Config(void)
 }  
 
 /*******************************************************************************
-* Function Name : Data_64_Package_Send.
-* Description   : prepares buffer to be sent containing 64B DataPackage
-* Input         : 64B DataPackage
+* Function Name : Data_5_Package_Send.
+* Description   : prepares buffer to be sent containing 5B DataPackage
+* Input         : 5B DataPackage
 * Output        : None.
 * Return value  : None.
 *******************************************************************************/
-void Data_64_Package_Send(u8 *data)
+void Data_50_Package_Send(u8 *data)
 {  
-	UserToPMABufferCopy(data,ENDP2_TXADDR,64);
-	SetEPTxCount(ENDP2, 64);
-	SetEPTxValid(ENDP2);
+	UserToPMABufferCopy(data,ENDP2_TXADDR,50);
+	_SetEPTxStatus(ENDP2, EP_TX_VALID);
 }
 
-void USB_SendString(u8 *str)	   // 
-{
-     u8 ii=0;   
-     while(*str)
-     {
-         Transi_Buffer[ii++]=*(str++);
-         if (ii ==64) break;
-     }
-     UserToPMABufferCopy(Transi_Buffer, ENDP2_TXADDR, 64);
-     _SetEPTxStatus(ENDP2, EP_TX_VALID);
-}
 
 /*******************************************************************************
 * Function Name  : Get_SerialNum.

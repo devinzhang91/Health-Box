@@ -1,5 +1,7 @@
 #include "timer.h"
-#include "adc.h"
+#include "adc1.h"
+#include "adc2.h"
+#include "adc3.h"
 #include "LCD.h"
 #include "dma.h"
 #include "hw_config.h"
@@ -10,6 +12,7 @@ u16 data[240]={0};
 u16 adcValue=0;
 u8 cursor = 0;
 extern u8 SendBuff[];
+extern u8 AdcChannel;
 void drawMap(void);
 
 //通用定时器中断初始化
@@ -79,24 +82,28 @@ void TIM3_Int_Init(u16 arr,u16 psc)
 }
 
 uint8_t HexTable[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};   //16进制字符表
-uint8_t USBTable[]={0x27,0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x04,0x05,0x06,0x07,0x08,0x09};   //16进制字符表
+uint8_t USBTable[]={0x27,0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x04,0x05,0x06,0x07,0x08,0x09};   //16进制HID字符表
 
 void TIM4_IRQHandler(void)   //TIM4中断
 {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 	{
 		//要做的事
-		//adcValue = Get_Adc_Average(ADC_Channel_11,8)*3300/4096;
-		//adcValue = Get_Adc(ADC_Channel_11)*3300/4096;
-		adcValue = Get_Multi_Adc()*3300/4096;
+		switch(AdcChannel)
+		{
+			case 1:
+				adcValue = Get_Multi_Adc1()*3300/4096;
+				break;
+			case 2:
+				adcValue = Get_Multi_Adc2()*3300/4096;
+				break;
+		}
 		data[cursor]=adcValue;
     cursor = (++cursor % 240); //游标循环自加
-// 		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);	//发送数据
 		SendBuff[0] = HexTable[(adcValue>>12)&0x0f];
 		SendBuff[1] = HexTable[(adcValue>>8)&0x0f];
 		SendBuff[2] = HexTable[(adcValue>>4)&0x0f];
 		SendBuff[3] = HexTable[(adcValue)&0x0f];
-		//USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE);
 		DMA_USART_Enable(DMA1_Channel4);
 
 	}

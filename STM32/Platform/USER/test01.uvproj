@@ -562,11 +562,6 @@
               <FilePath>..\HARDWARE\DAC\dac.c</FilePath>
             </File>
             <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\ADC\adc.c</FilePath>
-            </File>
-            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI\spi.c</FilePath>
@@ -590,6 +585,16 @@
               <FileName>dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\DMA\dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADC\adc1.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADC\adc2.c</FilePath>
             </File>
           </Files>
         </Group>

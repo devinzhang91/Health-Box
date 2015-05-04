@@ -589,13 +589,13 @@ void Add_Button(void)
 	
 	LCD_DrawRectangle(40,140,120,200, Blue);
 	LCD_DrawRectangle(39,139,121,201, Blue);
-	LCD_printString(65,165, "DAC Up" ,Black);
+	LCD_printString(65,165, "ADC 1" ,Black);
 	
 	LCD_DrawRectangle(200,140,280,200, Blue);
 	LCD_DrawRectangle(199,139,281,201, Blue);
-	LCD_printString(220,165, "DAC Down" ,Black);
+	LCD_printString(220,165, "ADC 2" ,Black);
 	
-	LCD_printString(20,10, "DAC:      mV" ,Black);
+	LCD_printString(20,10, "Channel:" ,Black);
 	LCD_printString(120,10, "ADC:      mV" ,Black);
 }
 

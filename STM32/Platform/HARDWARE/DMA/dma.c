@@ -57,8 +57,8 @@ void DMA_ADC_Config(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar,u16 cndtr)
 	DMA_InitStructure.DMA_BufferSize = cndtr; //DMA通道的DMA缓存的大小
 	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable; //外设地址寄存器不变
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable; //内存地址寄存器递增
-	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord; //数据宽度为16位
-	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord; //数据宽度为16位
+	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word; //数据宽度为16位
+	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word; //数据宽度为16位
 	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular; //工作在循环缓存模式
 	DMA_InitStructure.DMA_Priority = DMA_Priority_High; //DMA通道 x拥有高优先级
 	DMA_InitStructure.DMA_M2M = DMA_M2M_Disable; //DMA通道x没有设置为内存到内存传输

@@ -48,7 +48,6 @@ void uart_init(u32 bound){
 
 	USART_Init(USART1, &USART_InitStructure); //初始化串口
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//接收寄存器满开启中断
-//USART_ITConfig(USART1, USART_IT_TXE, ENABLE);//发送寄存器空开启中断
 	USART_Cmd(USART1, ENABLE);                    //使能串口 
 	USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE);
 }

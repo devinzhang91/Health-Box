@@ -23,8 +23,8 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-u8 Receive_Buffer[64];
-u8 Transi_Buffer[64];
+u8 Receive_Buffer[50];
+u8 Transi_Buffer[50];
 u8 USB_ReceiveFlg = FALSE;
 // 未知作用vu8 MsgCmd;
 
@@ -40,7 +40,7 @@ u8 USB_ReceiveFlg = FALSE;
 void EP1_OUT_Callback(void)
 {
      USB_ReceiveFlg = TRUE;
-     PMAToUserBufferCopy(Receive_Buffer, ENDP1_RXADDR,64);
+     PMAToUserBufferCopy(Receive_Buffer, ENDP1_RXADDR,50);
 //未知作用   MsgCmd = Receive_Buffer[21];
      SetEPRxStatus(ENDP1, EP_RX_VALID);
 }

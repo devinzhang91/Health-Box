@@ -2,4 +2,4 @@
 -I D:\Keil\ARM\RV31\INC 
 -I D:\Keil\ARM\CMSIS\Include 
 -I D:\Keil\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\OBJ\usb_pwr.o" --omf_browse "..\OBJ\usb_pwr.crf" --depend "..\OBJ\usb_pwr.d" "..\USB\CONFIG\usb_pwr.c"
+-DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\OBJ\lcd.o" --omf_browse "..\OBJ\lcd.crf" --depend "..\OBJ\lcd.d" "..\HARDWARE\LCD\LCD.c"

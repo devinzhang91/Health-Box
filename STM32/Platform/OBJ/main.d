@@ -23,9 +23,9 @@
 ..\OBJ\main.o: ..\HARDWARE\LCD\LCD.h
 ..\OBJ\main.o: ..\SYSTEM\delay\delay.h
 ..\OBJ\main.o: ..\HARDWARE\TOUCH\touch.h
-..\OBJ\main.o: ..\HARDWARE\ADC\adc.h
+..\OBJ\main.o: ..\HARDWARE\ADC\adc1.h
+..\OBJ\main.o: ..\HARDWARE\ADC\adc2.h
 ..\OBJ\main.o: ..\HARDWARE\KEY\key.h
-..\OBJ\main.o: ..\HARDWARE\DAC\dac.h
 ..\OBJ\main.o: ..\HARDWARE\DMA\dma.h
 ..\OBJ\main.o: ..\USB\LIB\usb_lib.h
 ..\OBJ\main.o: ..\USB\CONFIG\hw_config.h

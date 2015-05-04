@@ -1,5 +1,0 @@
--c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\Libraries -I..\STM32F10x_FWLib\inc -I..\USER -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\HARDWARE\ADC -I..\HARDWARE\DAC -I..\HARDWARE\TIMER -I..\HARDWARE\CAMER -I..\HARDWARE\LCD -I..\HARDWARE\SPI -I..\HARDWARE\TOUCH -I..\HARDWARE\KEY -I..\HARDWARE\DMA -I..\USB\CONFIG -I..\USB\LIB 
--I D:\Keil\ARM\RV31\INC 
--I D:\Keil\ARM\CMSIS\Include 
--I D:\Keil\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\OBJ\usb_regs.o" --omf_browse "..\OBJ\usb_regs.crf" --depend "..\OBJ\usb_regs.d" "..\USB\LIB\usb_regs.c"

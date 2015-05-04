@@ -10,7 +10,7 @@
 
 u8 SendBuff[5];
 vu16 AD_Value[4];
-u8 USB_Data[64]={1};
+//u8 USB_Data[64]={1};
 
 //设置USB 连接/断线
 //enable:0,断开
@@ -43,18 +43,16 @@ int main(void)
  	Set_USBClock();   
  	USB_Init();
 	
-// 	uart_init(9600);	 							//串口初始化为9600
-// 	Adc_Multi_Init();			//多通道ADC初始化
-// 	DMA_USART_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)SendBuff,5);
-// 	DMA_ADC_Config(DMA1_Channel1,(u32)&ADC1->DR,(u32)AD_Value,4);
-// 	
-// 	DMA_ADC_Enable(DMA1_Channel1);
-// 	TIM4_Int_Init(9999,71);	//定时器设置 72分频 1MHz 定时10000单位 = 10ms
+	uart_init(9600);	 							//串口初始化为9600
+	Adc_Multi_Init();			//多通道ADC初始化
+	DMA_USART_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)SendBuff,5);
+	DMA_ADC_Config(DMA1_Channel1,(u32)&ADC1->DR,(u32)AD_Value,4);
+	
+	DMA_ADC_Enable(DMA1_Channel1);
+	TIM4_Int_Init(9999,71);	//定时器设置 72分频 1MHz 定时10000单位 = 10ms
 	
 	while(1)
 	{
-		//delay_ms(500);
-		USB_SendString("Connect to stm32 test the max lenght and more over 22 Byte. This is DevinZhang USB speed testing, It maybe over 64 Byte");
 	}	
 		
 }

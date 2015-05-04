@@ -131,7 +131,7 @@ const u8 CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] =
     0x15, 0x00,            /*     LOGICAL_MINIMUM (0)        */               
     0x26, 0x00, 0xFF,      /*     LOGICAL_MAXIMUM (255)      */                 
     0x75, 0x08,            /*     REPORT_SIZE (8)            */
-		0x95, 0x40,       	   // 		REPORT_COUNT (20)           
+		0x95, 0x32,       	   // 		REPORT_COUNT (20)           
     0x81, 0x02,            /*     INPUT (Data,Var,Abs,Vol)   */                    
     /* 161 */
 //	0x85, 0x02,            /*     REPORT_ID (1)		     */
@@ -139,7 +139,7 @@ const u8 CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] =
     0x15, 0x00,            /*     LOGICAL_MINIMUM (0)        */          
     0x26,0x00,0xFF, 				// 		LOGICAL_MAXIMUM (255)           
     0x75, 0x08,            /*     REPORT_SIZE (8)            */        
-    0x95, 0x40,            /*     REPORT_COUNT (1)           */       
+    0x95, 0x32,            /*     REPORT_COUNT (1)           */       
     0x91, 0x02,            /*     OUTPUT (Data,Var,Abs,Vol)  */
     0xc0 	          /*     END_COLLECTION	             */
   }; /* CustomHID_ReportDescriptor */

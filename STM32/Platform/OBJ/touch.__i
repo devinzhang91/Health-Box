@@ -2,4 +2,4 @@
 -I D:\Keil\ARM\RV31\INC 
 -I D:\Keil\ARM\CMSIS\Include 
 -I D:\Keil\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\OBJ\usb_int.o" --omf_browse "..\OBJ\usb_int.crf" --depend "..\OBJ\usb_int.d" "..\USB\LIB\usb_int.c"
+-DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\OBJ\touch.o" --omf_browse "..\OBJ\touch.crf" --depend "..\OBJ\touch.d" "..\HARDWARE\TOUCH\touch.c"

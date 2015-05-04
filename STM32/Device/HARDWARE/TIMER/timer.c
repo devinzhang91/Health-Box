@@ -10,6 +10,9 @@ u16 adcValue=0;
 u8 cursor = 0;
 extern u8 SendBuff[];
 void drawMap(void);
+u8 USBBuff[50];
+u8 loopcnt = 0;
+u8 AdcChar[4];
 
 //通用定时器中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
@@ -84,20 +87,33 @@ void TIM4_IRQHandler(void)   //TIM4中断
 {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 	{
+
+		AdcChar[0] = HexTable[(adcValue>>12)&0x0f];
+		AdcChar[1] = HexTable[(adcValue>>8)&0x0f];
+		AdcChar[2] = HexTable[(adcValue>>4)&0x0f];
+		AdcChar[3] = HexTable[(adcValue)&0x0f];
+		
+		USBBuff[loopcnt*5+0] = AdcChar[0];
+		USBBuff[loopcnt*5+1] = AdcChar[1];
+		USBBuff[loopcnt*5+2] = AdcChar[2];
+		USBBuff[loopcnt*5+3] = AdcChar[3];
+		USBBuff[loopcnt*5+4] = 'P';
+		loopcnt++;
+		if(loopcnt==10)
+		{
+			Data_50_Package_Send(USBBuff);
+			loopcnt = 0;
+		}
 		//要做的事
-		//adcValue = Get_Adc_Average(ADC_Channel_11,8)*3300/4096;
-		//adcValue = Get_Adc(ADC_Channel_11)*3300/4096;
 		adcValue = Get_Multi_Adc()*3300/4096;
 		data[cursor]=adcValue;
     cursor = (++cursor % 240); //游标循环自加
-// 		USART_ITConfig(USART1, USART_IT_TXE, ENABLE);	//发送数据
-		SendBuff[0] = HexTable[(adcValue>>12)&0x0f];
-		SendBuff[1] = HexTable[(adcValue>>8)&0x0f];
-		SendBuff[2] = HexTable[(adcValue>>4)&0x0f];
-		SendBuff[3] = HexTable[(adcValue)&0x0f];
-		//USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE);
+		SendBuff[0] = AdcChar[0];
+		SendBuff[1] = AdcChar[1];
+		SendBuff[2] = AdcChar[2];
+		SendBuff[3] = AdcChar[3];
+		//USB_SendString("Connect to stm32 test the max lenght and more over 22 Byte.");
 		DMA_USART_Enable(DMA1_Channel4);
-
 	}
 	TIM_ClearITPendingBit(TIM4, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 }

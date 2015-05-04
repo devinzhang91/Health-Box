@@ -158,13 +158,13 @@ void CustomHID_Reset(void)
   /* Initialize Endpoint 1 */
      SetEPType(ENDP1, EP_INTERRUPT);
      SetEPRxAddr(ENDP1, ENDP1_RXADDR);	//ADDR内部寄存器被用作当前缓冲区的指针 ENDP1_RXADDR=(0x98)
-     SetEPRxCount(ENDP1, 64);			//COUNT寄存器用于记录剩下未传输的字节数
+     SetEPRxCount(ENDP1, 50);			//COUNT寄存器用于记录剩下未传输的字节数
      SetEPRxStatus(ENDP1, EP_RX_VALID);	//设置端点接受有效 EP_RX_VALID=0x3000
 
   /* Initialize Endpoint 2 */
      SetEPType(ENDP2, EP_INTERRUPT);
      SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-     SetEPTxCount(ENDP2, 64);
+     SetEPTxCount(ENDP2, 50);
      SetEPTxStatus(ENDP2, EP_TX_NAK);//设置端点发送不应答 EP_TX_NAK=(0x0020)
 
   bDeviceState = ATTACHED;	//ATTACHED=1

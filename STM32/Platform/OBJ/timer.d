@@ -18,7 +18,9 @@
 ..\OBJ\timer.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
 ..\OBJ\timer.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\OBJ\timer.o: ..\STM32F10x_FWLib\inc\misc.h
-..\OBJ\timer.o: ..\HARDWARE\ADC\adc.h
+..\OBJ\timer.o: ..\HARDWARE\ADC\adc1.h
+..\OBJ\timer.o: ..\HARDWARE\ADC\adc2.h
+..\OBJ\timer.o: ..\HARDWARE\ADC\adc3.h
 ..\OBJ\timer.o: ..\HARDWARE\LCD\LCD.h
 ..\OBJ\timer.o: ..\HARDWARE\DMA\dma.h
 ..\OBJ\timer.o: ..\USB\CONFIG\hw_config.h
