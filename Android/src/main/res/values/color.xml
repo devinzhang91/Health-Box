@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tab0">#242444</color>
+    <color name="tab1">#462882</color>
+    <color name="view0">#648d64</color>
+    <color name="view1">#282a6f</color>
+    <color name="view2">#424a68</color>
+    <color name="view3">#4a2a2f</color>
+</resources>

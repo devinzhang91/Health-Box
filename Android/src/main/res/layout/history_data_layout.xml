@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@mipmap/chilp2">
+    android:alpha="0.8"
+    android:background="#2f2f2f">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -19,6 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:textColor="#ffffff"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:text="Time:"
                 android:id="@+id/textView2" />
 
@@ -26,6 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:textColor="#ffffff"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:text="New Text"
                 android:id="@+id/dataTime" />
         </LinearLayout>
@@ -40,6 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:textColor="#ffffff"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:text="HeartRate:"
                 android:id="@+id/textView3" />
 
@@ -47,6 +54,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:textColor="#ffffff"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:text="New Text"
                 android:id="@+id/dataRate" />
         </LinearLayout>

@@ -57,9 +57,9 @@ public class PullToFlashFragment extends Fragment {
         devices.add("devices list");
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter.enable()) {
-            Toast.makeText(getActivity(), "open buletooth success", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "蓝牙打开成功", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getActivity(), "open buletooth fail", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "蓝牙打开失败", Toast.LENGTH_LONG).show();
         }
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         receiver = new BluetoothReceiver();

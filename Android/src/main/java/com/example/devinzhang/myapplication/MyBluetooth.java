@@ -109,6 +109,8 @@ public class MyBluetooth {
 
     public void chatIN() {
         Thread threadChat = new Thread(new Runnable() {
+//            public long oldT;
+
             public void run() {
                 if (isConnect) {
                     Log.e("TAG", "chatIN...");
@@ -123,11 +125,13 @@ public class MyBluetooth {
 //                                handler.sendMessage(msg);
 
                                 if(buff =='P'){
+//                                    Log.e("Time: ", String.valueOf(System.currentTimeMillis()-oldT));
                                     Message msg = handler.obtainMessage();
                                     msg.what = DATA;
                                     msg.obj = data;
                                     handler.sendMessage(msg);
                                     data = "";
+//                                    oldT = System.currentTimeMillis();
                                 } else if(buff =='Q'){
                                     Message msg = handler.obtainMessage();
                                     msg.what = MESSAGE;

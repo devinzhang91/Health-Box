@@ -1,19 +1,14 @@
 package com.example.devinzhang.myapplication;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -72,7 +67,6 @@ public class PullToFlashAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder1 holder1 = null;
         ViewHolder2 holder2 = null;
-        ViewHolder3 holder3 = null;
         int type = getItemViewType(position);
         if (convertView == null) {
             inflater = LayoutInflater.from(mContext);
@@ -87,24 +81,15 @@ public class PullToFlashAdapter extends BaseAdapter {
                     convertView.setLayoutParams(lp);
                     break;
                 case TYPE_2:
-                    convertView = inflater.inflate(R.layout.file_progressbar_view,
+                    convertView = inflater.inflate(R.layout.fragment_motion,
                             parent, false);
                     holder2 = new ViewHolder2();
-                    holder2.tv_progress = (TextView) convertView
-                            .findViewById(R.id.textView_progress);
-                    holder2.pb_file = (ProgressBar) convertView
-                            .findViewById(R.id.progressBar_file);
+                    holder2.sw_motion = (Switch) convertView.findViewById(R.id.motion_switch);
+                    holder2.tv_state = (TextView) convertView.findViewById(R.id.textView_state);
+                    holder2.tv_grid = (TextView) convertView.findViewById(R.id.textView_grid);
+                    holder2.tv_walk = (TextView) convertView.findViewById(R.id.textView_walk);
+                    holder2.tv_run = (TextView) convertView.findViewById(R.id.textView_run);
                     convertView.setTag(holder2);
-                    break;
-                case TYPE_3:
-                    convertView = inflater.inflate(R.layout.speed_control_view,
-                            parent, false);
-                    holder3 = new ViewHolder3();
-                    holder3.tv_speed = (TextView) convertView
-                            .findViewById(R.id.textView_speed);
-                    holder3.sb_speed = (SeekBar) convertView
-                            .findViewById(R.id.seekBar_speed);
-                    convertView.setTag(holder3);
                     break;
                 default:
                     break;
@@ -118,9 +103,6 @@ public class PullToFlashAdapter extends BaseAdapter {
                 case TYPE_2:
                     holder2 = (ViewHolder2) convertView.getTag();
                     break;
-                case TYPE_3:
-                    holder3 = (ViewHolder3) convertView.getTag();
-                    break;
             }
         }
         // 设置资源
@@ -129,26 +111,19 @@ public class PullToFlashAdapter extends BaseAdapter {
                 final ViewHolder1 finalHolder = holder1;
                 break;
             case TYPE_2:
-                holder2.pb_file.setProgress(0);
-                holder2.tv_progress.setText(holder2.pb_file.getProgress() + "%");
-                break;
-            case TYPE_3:
-                holder3.sb_speed.setProgress(0);
-                holder3.tv_speed.setText(holder3.sb_speed.getProgress() + "%");
-                final ViewHolder3 finalHolder1 = holder3;
-                holder3.sb_speed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                holder2.sw_motion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
                     @Override
-                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                        finalHolder1.tv_speed.setText(finalHolder1.sb_speed.getProgress() + "%");
-                    }
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                    }
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        // TODO Auto-generated method stub
+                        if (isChecked) {
+
+                        } else {
+                        }
                     }
                 });
                 break;
+
         }
 
         return convertView;
@@ -159,13 +134,13 @@ public class PullToFlashAdapter extends BaseAdapter {
     }
 
     public class ViewHolder2 {
-        TextView tv_progress;
-        ProgressBar pb_file;
+        Switch sw_motion;
+        TextView tv_state;
+        TextView tv_grid;
+        TextView tv_walk;
+        TextView tv_run;
     }
 
-    public class ViewHolder3 {
-        TextView tv_speed;
-        SeekBar sb_speed;
-    }
+
 }
 

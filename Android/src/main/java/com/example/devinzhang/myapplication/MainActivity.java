@@ -2,12 +2,24 @@ package com.example.devinzhang.myapplication;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -31,13 +43,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class MainActivity extends FragmentActivity implements PullToFlashFragment.ListListener, TerminalFragment.TerminalListener {
+public class MainActivity extends FragmentActivity implements PullToFlashFragment.ListListener, TerminalFragment.TerminalListener, MotionFragment.MotionListener {
 
     public static final int STATE = 0;
     public static final int DATA = 1;
     public static final int MESSAGE = 2;
 
-    public static final String URL = "http://192.168.1.114/";
+    //public static final String URL = "http://192.168.1.114/";
+    public static final String URL = "http://211.83.105.94/blog/";
     public static final String UPLOAD = "test.php";
     public static final String HISTORY = "show.php";
     public static MyBluetooth client = null;
@@ -63,6 +76,7 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
     //private PlaceholderFragment fragmentThird;
     private HistoryFragment historyFragment;
     private TerminalFragment terminalFragment;
+    private MotionFragment motionFragment;
     private BluetoothAdapter bluetoothAdapter;
     private Handler pullToFlashHandler;
     private Handler terminalHandler;
@@ -74,6 +88,7 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
     private Button btn_TerminalSend;
     private TextView chartText;
     private ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +110,13 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
         listData = new ArrayList<>();
         pull2FlashFragment = new PullToFlashFragment();
         historyFragment = new HistoryFragment();
+        motionFragment = new MotionFragment();
         //fragmentThird = new PlaceholderFragment();
         terminalFragment = new TerminalFragment();
         //三个布局加入列表
         listData.add(pull2FlashFragment);
         listData.add(historyFragment);
+        listData.add(motionFragment);
         listData.add(terminalFragment);
         //ViewPager相当于一组件容器 实现页面切换
         fpAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -114,7 +131,7 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
         };
         //设置适配器
         viewPager.setAdapter(fpAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
 
         //初始化图标
         image1 = (ImageView) findViewById(R.id.image1);
@@ -134,9 +151,9 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
                         image2.setImageDrawable(getResources().getDrawable(R.mipmap.msg));
                         image3.setImageDrawable(getResources().getDrawable(R.mipmap.mobile));
                         //背景加深
-                        layout1.setBackgroundResource(R.mipmap.bac1);
-                        layout2.setBackgroundResource(R.mipmap.bac2);
-                        layout3.setBackgroundResource(R.mipmap.bac2);
+                        layout1.setBackgroundResource(R.color.tab1);
+                        layout2.setBackgroundResource(R.color.tab0);
+                        layout3.setBackgroundResource(R.color.tab0);
                         break;
                     case 1:
                         //图片切换
@@ -144,9 +161,9 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
                         image2.setImageDrawable(getResources().getDrawable(R.mipmap.msgs));
                         image3.setImageDrawable(getResources().getDrawable(R.mipmap.mobile));
                         //背景加深
-                        layout1.setBackgroundResource(R.mipmap.bac2);
-                        layout2.setBackgroundResource(R.mipmap.bac1);
-                        layout3.setBackgroundResource(R.mipmap.bac2);
+                        layout1.setBackgroundResource(R.color.tab0);
+                        layout2.setBackgroundResource(R.color.tab1);
+                        layout3.setBackgroundResource(R.color.tab0);
                         break;
                     case 2:
                         //图片切换
@@ -154,9 +171,9 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
                         image2.setImageDrawable(getResources().getDrawable(R.mipmap.msg));
                         image3.setImageDrawable(getResources().getDrawable(R.mipmap.mobiles));
                         //背景加深
-                        layout1.setBackgroundResource(R.mipmap.bac2);
-                        layout2.setBackgroundResource(R.mipmap.bac2);
-                        layout3.setBackgroundResource(R.mipmap.bac1);
+                        layout1.setBackgroundResource(R.color.tab0);
+                        layout2.setBackgroundResource(R.color.tab0);
+                        layout3.setBackgroundResource(R.color.tab1);
                         break;
                 }
             }
@@ -271,7 +288,8 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
                                         client.disconnect();
                                         isConnect = false;
                                     }
-                                    System.exit(0);
+                                    //System.exit(0);
+                                    finish();
                                 }
                             })
                     .setNegativeButton("NO",
@@ -295,11 +313,30 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
     }
 
     @Override
-    protected void onDestroy() {
-        System.out.println("Activity--->onDestroy");
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
+        //unregisterReceiver(myBroadcastReceive);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("Activity--->onDestroy");
+    }
+
+
+    /****************** 蓝牙广播接受 ******************/
+    public class ReceiveBroadCast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // 得到广播中得到的数据，并显示出来
+            String message = intent.getStringExtra("data");
+        }
+
+    }
+
+    //回调接口
     @Override
     public void onConnentPullToFlashFragment(BluetoothAdapter btAdapter, BluetoothDevice btDevice, Handler btHandler) {
         client = new MyBluetooth(bluetoothAdapter, btDevice, handler);
@@ -330,4 +367,10 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
             }
         });
     }
+
+    @Override
+    public void onConnentMotionFragment() {
+
+    }
+
 }

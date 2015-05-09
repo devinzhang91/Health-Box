@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/view2" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运动跟踪"
+            android:id="@+id/motion_switch"
+            android:checked="false"
+            android:textColor="#cfcfcf"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cfcfcf"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:text="当前状态："
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cfcfcf"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:text="NULL"
+                android:id="@+id/textView_state" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cfcfcf"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:text="坐标："
+                android:id="@+id/textView5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cfcfcf"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:text="NULL"
+                android:id="@+id/textView_grid" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#cfcfcf"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:text="步行距离："
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#cfcfcf"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:text="NULL"
+            android:id="@+id/textView_walk" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#cfcfcf"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:text="跑步距离："
+            android:id="@+id/textView7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#cfcfcf"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:text="NULL"
+            android:id="@+id/textView_run" />
+    </LinearLayout>
+
+</LinearLayout>

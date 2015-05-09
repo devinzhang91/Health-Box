@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@mipmap/background0" >
+    android:background="@color/view1" >
 
     <com.example.devinzhang.myapplication.RefreshableView
         android:id="@+id/refreshable_view"
