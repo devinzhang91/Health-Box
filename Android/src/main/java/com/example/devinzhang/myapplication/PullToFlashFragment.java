@@ -54,7 +54,7 @@ public class PullToFlashFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.list_view);
         refreshableView = (RefreshableView) rootView.findViewById(R.id.refreshable_view);
 
-        devices.add("devices list");
+        devices.add("设备列表");
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter.enable()) {
             Toast.makeText(getActivity(), "蓝牙打开成功", Toast.LENGTH_LONG).show();

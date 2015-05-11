@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -29,7 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +137,12 @@ public class HistoryFragment extends Fragment {
                 // 直接把JSON字符串转化为一个JSONObject对象
                 JSONObject jsonObj = new JSONObject(jsonObjs.getJSONObject(i).toString());
                 // 第1个键值对
-                tempMap.put("time", jsonObj.getString("time"));
+                String strTime = jsonObj.getString("time");
+                Long longTime = Long.parseLong(strTime);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+                Date curDate = new Date(longTime);
+                strTime = formatter.format(curDate);
+                tempMap.put("time", strTime);
                 // 第2个键值对
                 tempMap.put("map", paseData(jsonObj.getString("content")));   //解析数据，生成bitmap
                 Log.d("JSON : ","正在解析:" + jsonObj.getString("time"));

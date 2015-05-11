@@ -102,6 +102,15 @@ public class MainActivity extends FragmentActivity implements PullToFlashFragmen
         SCREEN_HEIGHT = dm.heightPixels;
 
         setViewPager();
+
+        CustomFAB fab = (CustomFAB) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Toast.makeText(MainActivity.this, "FAB", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setViewPager() {

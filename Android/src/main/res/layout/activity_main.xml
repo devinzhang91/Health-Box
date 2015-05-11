@@ -1,17 +1,38 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/bottom_layout" />
+    <include layout="@layout/bottom_layout"
+        android:id="@+id/include" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#ccffff" />
+        android:layout_height="match_parent"
+        android:background="#ccffff"
+        android:layout_below="@+id/include" />
 
 
-</LinearLayout>
+        <com.example.devinzhang.myapplication.CustomFAB
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@android:drawable/ic_input_add"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:tint="@android:color/white"
+            android:id="@+id/fab" />
+
+    <!--<ImageButton-->
+        <!--android:layout_width="56dp"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:id="@+id/imageButton"-->
+        <!--android:src="@android:drawable/ic_input_add"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginBottom="16dp" />-->
+
+</RelativeLayout>

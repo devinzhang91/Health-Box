@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
-                android:text="connect BT"
+                android:text="蓝牙连接"
                 android:textColor="#FFFFFF"
                 android:textSize="10dp"/>
         </LinearLayout>
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
-                android:text="History"
+                android:text="历史记录"
                 android:textColor="#FFFFFF"
                 android:textSize="10dp"></TextView>
         </LinearLayout>
@@ -84,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
-                android:text="Motion"
+                android:text="运动跟踪"
                 android:textColor="#FFFFFF"
                 android:textSize="10dp"></TextView>
         </LinearLayout>

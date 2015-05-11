@@ -52,6 +52,7 @@ public class MotionFragment extends Fragment {
                 // TODO Auto-generated method stub
                 if (isChecked) {
                     if(!isOPen(getActivity())) {
+                        sw_motion.setChecked(false);
                         turnGPSOn();
                     } else {
                         //开启和绑定服务
@@ -92,6 +93,16 @@ public class MotionFragment extends Fragment {
     private BroadcastReceiver myBroadcastReceive = new BroadcastReceiver(){
         public void onReceive(Context context, Intent intent) {
             Log.i("MainActivity", "Receive event");
+            double longitude = intent.getDoubleExtra("Longitude", 0.000000);
+            double latitude = intent.getDoubleExtra("Latitude", 0.000000);
+            int state = intent.getIntExtra("State",0);
+            double distanceWalk = intent.getDoubleExtra("DistanceWalk", 0.00);
+            double distanceRun = intent.getDoubleExtra("distanceRun", 0.00);
+            //更新视图
+            tv_state.setText(String.valueOf(state));
+            tv_grid.setText(String.valueOf(longitude)+" "+String.valueOf(latitude));
+            tv_walk.setText(String.valueOf(distanceWalk));
+            tv_run.setText(String.valueOf(distanceRun));
         }
 
     };
@@ -120,11 +131,11 @@ public class MotionFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.out.println("MotionFragment--->onDestroy");
-//        //停止和注销服务
-//        getActivity().stopService(serviceIntent);
-//        getActivity().unbindService(serviceConnection);
-//        //注销广播
-//        getActivity().unregisterReceiver(myBroadcastReceive);
+        //停止和注销服务
+        getActivity().stopService(serviceIntent);
+        getActivity().unbindService(serviceConnection);
+        //注销广播
+        getActivity().unregisterReceiver(myBroadcastReceive);
     }
 
     @Override

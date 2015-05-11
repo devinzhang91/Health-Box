@@ -3,6 +3,10 @@ package com.example.devinzhang.myapplication;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -22,18 +26,32 @@ import java.util.TimerTask;
 
 public class MotionServer extends Service {
     public static final String ACTION = "com.example.devinzhang.myapplication.MotionServer";
-    public static String GPSFLAG = "GPS";
-    public static String MOTIONFLAG = "Motion";
-
-    private LocationManager lm;
-    private static final String TAG="GpsActivity";
-
-    private double longitude = 0;
-    private double latitude = 0;
-    private double altitude = 0;
+    public static String VALUE = "VALUE";
 
     private ControlBinder binder = new ControlBinder();
     boolean mAllowRebind; // indicates whether onRebind should be used
+
+    private LocationManager lm;
+    private static final String TAG="MotionServer";
+    private double longitude = 0;
+    private double latitude = 0;
+    private double altitude = 0;
+    private double longitudePre = 0;
+    private double latitudePre = 0;
+    private double [] longitudeGroup = new double[5];
+    private double [] latitudeGroup = new double[5];
+    private int  pointCheck = 0;
+    private boolean gpsIsEnable = false;
+
+    private SensorManager sensorMgr;
+    private float [] gyroscope = {0,0,0};       //当前重力值
+    private float [] gyroscopePre = {0,0,0};    //上一个重力值
+    private int state = 0;  //0 不动; 1 走路; 2 跑步; 3 坐车;
+    private boolean isWalk = true;
+    private boolean isRunning = true;
+    private boolean isMoving = true;
+    private double distanceWalk =0.00;
+    private double distanceRun =0.00;
 
     /****************** 定时器 ******************/
     Timer timer = new Timer();
@@ -41,14 +59,38 @@ public class MotionServer extends Service {
         @Override
         public void run() {
             //Log.i(TAG, "running");
-            Intent intent = new Intent();  //Itent就是我们要发送的内容
+            judge();
+            Intent intent = new Intent(ACTION);  //Itent就是我们要发送的内容
             intent.putExtra("Longitude", longitude);
             intent.putExtra("Latitude", latitude);
             intent.putExtra("Altitude", altitude);
-            intent.setAction(GPSFLAG);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+            intent.putExtra("State", state);
+            intent.putExtra("DistanceWalk", distanceWalk);
+            intent.putExtra("DistanceRun", distanceRun);
+            //intent.setAction(VALUE);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
             sendBroadcast(intent);   //发送广播
         }
     };
+
+    private void judge() {
+        double distanceTemp = 0.00;
+        distanceTemp = GetDistance(latitudePre, longitudePre, latitude, longitude);
+        longitudePre = longitude;   //更新
+        latitudePre = latitude;
+        if(isMoving) {
+            if(distanceTemp>0 && distanceTemp<0.166 && pointCheck>200) {  //计算速度 0-10km为步行 10-20为跑步 阈值设置
+                state = 1;
+            } if(distanceTemp>0.166 && distanceTemp<0.333 && pointCheck>200) {
+                state = 2;
+            } if(distanceTemp>0.333  && pointCheck<200) {
+                state = 3;
+            }
+        } else {
+            state = 0;
+        }
+        cntCP = 0;  // 周期复位
+        pointCheck = 0;
+    }
 
     @Override
     public void onCreate() {
@@ -66,7 +108,7 @@ public class MotionServer extends Service {
         public void onLocationChanged(Location location) {
             updateView(location);
             Log.i(TAG, location.getLongitude()+","+location.getLatitude());
-            Toast.makeText(getApplication(), location.getLongitude()+","+location.getLatitude(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplication(), location.getLongitude()+","+location.getLatitude(), Toast.LENGTH_LONG).show();
             Log.i(TAG, "海拔："+location.getAltitude());
         }
 
@@ -78,14 +120,17 @@ public class MotionServer extends Service {
                 //GPS状态为可见时
                 case LocationProvider.AVAILABLE:
                     Log.i(TAG, "当前GPS状态为可见状态");
+                    gpsIsEnable = true;
                     break;
                 //GPS状态为服务区外时
                 case LocationProvider.OUT_OF_SERVICE:
                     Log.i(TAG, "当前GPS状态为服务区外状态");
+                    gpsIsEnable = false;
                     break;
                 //GPS状态为暂停服务时
                 case LocationProvider.TEMPORARILY_UNAVAILABLE:
                     Log.i(TAG, "当前GPS状态为暂停服务状态");
+                    gpsIsEnable = false;
                     break;
             }
         }
@@ -187,9 +232,61 @@ public class MotionServer extends Service {
         return s;
     }
 
+    SensorEventListener lsn = new SensorEventListener() {
+
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            {
+                // event.values float[]保存了x,y,z
+                analyseData(event.values);//调用方法分析数据
+                gyroscope = event.values;
+                //save(event.values);
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
+    private int cntCP=0;
+    public void analyseData(float[] values){
+        float mold=0;			//向量的模
+        for(int i=0;i<3;i++){
+            mold += values[i]*values[i];
+        }
+        mold = (float)Math.sqrt(mold);
+        if(mold>11.0 && mold<8.6) {
+            isMoving = true;
+            pointCheck++;
+        } else {
+            isMoving = false;
+        }
+    }
+
+    public float calculateAngle(float[] newPoints,float[] oldPoints){
+        float angle=0;
+        float vectorProduct=0;		//向量积
+        float newMold=0;			//新向量的模
+        float oldMold=0;			//旧向量的模
+        for(int i=0;i<3;i++){
+            vectorProduct += newPoints[i]*oldPoints[i];
+            newMold += newPoints[i]*newPoints[i];
+            oldMold += oldPoints[i]*oldPoints[i];
+        }
+        newMold = (float)Math.sqrt(newMold);
+        oldMold = (float)Math.sqrt(oldMold);
+        //计算夹角的余弦
+        float cosineAngle=(float)(vectorProduct/(newMold*oldMold));
+        //通过余弦值求角度
+        float fangle = (float)Math.toDegrees(Math.acos(cosineAngle));
+        return fangle; //返回向量的夹角
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand");
+        timer.schedule(task, 1000, 60*1000); // 1s后执行task,经过60s再次执行
         return START_STICKY;
     }
 
@@ -207,7 +304,10 @@ public class MotionServer extends Service {
         String bestProvider = lm.getBestProvider(getCriteria(), true);
         Location location= lm.getLastKnownLocation(bestProvider);
         lm.addGpsStatusListener(listener);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60*1000, 0, locationListener);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 10, locationListener);
+        sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);// .SENSOR_ACCELEROMETER);
+        sensorMgr.registerListener(lsn, sensor, SensorManager.SENSOR_DELAY_NORMAL /* SENSOR_DELAY_NORMAL */);   //200us
         return binder;
     }
     @Override
@@ -229,7 +329,7 @@ public class MotionServer extends Service {
     public class ControlBinder extends Binder {
 
         public void start() {
-            timer.schedule(task, 1000, 1000); // 1s后执行task,经过1s再次执行
+            timer.schedule(task, 1000, 60*1000); // 1s后执行task,经过60s再次执行
         }
         public void stop() {
             timer.cancel();

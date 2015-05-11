@@ -22,7 +22,7 @@
                 android:layout_margin="3dp"
                 android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:text="Time:"
+                android:text="时间:"
                 android:id="@+id/textView2" />
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_margin="3dp"
                 android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:text="New Text"
+                android:text="NULL"
                 android:id="@+id/dataTime" />
         </LinearLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_margin="3dp"
                 android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:text="HeartRate:"
+                android:text="心率:"
                 android:id="@+id/textView3" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_margin="3dp"
                 android:textColor="#ffffff"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:text="New Text"
+                android:text="NULL"
                 android:id="@+id/dataRate" />
         </LinearLayout>
     </LinearLayout>
